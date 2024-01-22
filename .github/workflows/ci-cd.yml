@@ -19,7 +19,7 @@ jobs:
         go-version: 1.18
 
     - name: Build Docker image
-      run: docker build -t myapp .
+      run: docker build -t myapp -f .docker/dockerfile .
 
     - name: Tag Docker image
       run: docker tag myapp ${{ github.repository_owner }}/myapp:latest
