@@ -41,7 +41,8 @@ jobs:
       with:
         context: .
         push: true
-        tags: akatruk/p2p-devops-test
+        dockerfile: .docker/dockerfile
+        tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
 
     # - name: Create HPA
