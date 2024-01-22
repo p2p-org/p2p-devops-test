@@ -3,7 +3,7 @@ replicaCount: 1
 app:
   name: p2p-devops-test
   containers: 
-    image: your-docker-registry/p2p-devops-test
+    image: ghcr.io/akatruk/p2p-devops-test
     tag: latest
 
 service:
