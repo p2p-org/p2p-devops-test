@@ -22,7 +22,7 @@ jobs:
       run: docker build -t myapp -f .docker/dockerfile .
 
     - name: Tag Docker image
-      run: docker tag myapp ${{ github.repository_owner }}/p2p-devops-test:latest
+      run: docker tag myapp ghcr.io/${{ github.repository_owner }}/p2p-devops-test:latest
 
     - name: Push Docker image to GitHub Container Registry
       run: |
