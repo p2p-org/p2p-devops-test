@@ -1,7 +1,7 @@
 FROM golang:1.16 AS build
 WORKDIR /app
 COPY . .
-RUN go build -o myapp .
+RUN go build -o myapp
 FROM alpine:latest
 COPY --from=build /app/myapp /usr/local/bin/myapp
 EXPOSE 3000
