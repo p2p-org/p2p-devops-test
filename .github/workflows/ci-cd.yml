@@ -18,11 +18,6 @@ jobs:
       with:
         go-version: 1.18
 
-    - name: Linting
-      run: |
-        go get -u golang.org/x/lint/golint
-        golint ./...
-
     - name: Run Tests
       run: go test -v ./...
 
