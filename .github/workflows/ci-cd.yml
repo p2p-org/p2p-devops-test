@@ -1,0 +1,45 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.16
+
+    - name: Linting
+      run: |
+        go get -u golang.org/x/lint/golint
+        golint ./...
+
+    - name: Run Tests
+      run: go test -v ./...
+
+    - name: Build Docker image
+      run: docker build -t myapp .
+
+    - name: Tag Docker image
+      run: docker tag myapp ${{ github.repository_owner }}/myapp:latest
+
+    - name: Push Docker image to GitHub Container Registry
+      run: |
+        echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        docker push ghcr.io/${{ github.repository_owner }}/myapp:latest
+
+    - name: Helm Chart Linting
+      run: helm lint ./helm-chart
+
+    # - name: Create HPA
+    #   run: |
+    #     kubectl autoscale deployment p2p-devops-test --cpu-percent=50 --min=1 --max=5
