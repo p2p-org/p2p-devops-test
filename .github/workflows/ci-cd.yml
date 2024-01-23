@@ -79,5 +79,3 @@ jobs:
         kubectl apply -f devops/argocd-prod.yml --validate=false
       env:
         KUBECONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
-
-
