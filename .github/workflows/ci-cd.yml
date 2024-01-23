@@ -44,10 +44,6 @@ jobs:
   build-and-push-production:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
-    on:
-      push:
-        branches:
-          - master    
 
     steps:
     - name: Checkout Repository
