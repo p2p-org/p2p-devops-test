@@ -45,7 +45,7 @@ jobs:
 
   build-and-push-production:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && github.ref == 'refs/heads/master'
 
     steps:
     - name: Checkout Repository
