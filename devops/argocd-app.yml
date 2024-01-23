@@ -10,6 +10,10 @@ spec:
     repoURL: https://github.com/akatruk/p2p-devops-test
     path: devops
     targetRevision: master
+    helm:
+      valueFiles: 
+        - prod.yml
+        - stg.yml
   destination:
     server: https://kubernetes.default.svc
 

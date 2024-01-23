@@ -1,4 +1,4 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: p2p-devops-test-production
+  name: {{ .Values.app.namespace }}
