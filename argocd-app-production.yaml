@@ -7,7 +7,6 @@ spec:
   project: default
   destination:
     server: https://kubernetes.default.svc
-    namespace: 2p2-devops-test
   source:
     path: test
     repoURL: https://github.com/akatruk/p2p-devops-test.git
