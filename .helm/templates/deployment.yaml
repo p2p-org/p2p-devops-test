@@ -2,26 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.app.name }}
-  namespace: {{ .Values.app.name }}
-  labels:
-    app: {{ .Values.app.name }}
+  namespace: {{ .Values.app.namespace }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.app.replicas }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ .Values.app.name }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+      app: {{ .Values.app.name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ .Values.app.name }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
+        app: {{ .Values.app.name }}
     spec:
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.app.containers.image }}:{{ .Values.app.containers.tag }}"
-          ports:
-            - containerPort: {{ .Values.service.port }}
+      - name: {{ .Values.app.name }}
+        image: {{ .Values.app.containers.image }}
+        ports:
+        - containerPort: {{ .Values.app.port }}
         resources:
           limits: {{ .Values.app.limits | toYaml | nindent 12 }}
           requests: {{ .Values.app.requests | toYaml | nindent 12 }}

@@ -4,18 +4,20 @@ metadata:
   name: p2p-devops-test
   namespace: argocd
 spec:
+  project: default
   destination:
     server: https://kubernetes.default.svc
-    namespace: 2p2-devops-test
+    namespace: 2p2-devops-test-production
   source:
+    path: .helm
     repoURL: https://github.com/akatruk/p2p-devops-test.git
-    path: /
-    targetRevision: master  # or specific Git commit, tag, or branch
-    helm:
-      valueFiles:
-        - .helm/values.yaml
-  project: default  # ArgoCD project to associate with (create if doesn't exist)
+    targetRevision: master
   syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
+      valueFiles:
+      - .helm/values-prod.yaml
+      - .helm/values-stg.yaml
