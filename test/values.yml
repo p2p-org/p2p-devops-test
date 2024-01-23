@@ -13,7 +13,6 @@ app:
     memory: "128Mi"
     cpu: "100m"  
 
-
 service:
   port: 3000
 

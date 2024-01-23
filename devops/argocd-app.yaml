@@ -1,3 +1,4 @@
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -6,14 +7,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/akatruk/p2p-devops-test.git
-    targetRevision: HEAD
+    repoURL: https://github.com/akatruk/p2p-devops-test
     path: devops
-    chart: p2p-devops-test
-    helm:
-      valueFiles:
-      - values-prod.yaml
-      - values-stg.yaml
+    targetRevision: master
   destination:
     server: https://kubernetes.default.svc
 
