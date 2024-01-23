@@ -8,14 +8,14 @@ spec:
   source:
     repoURL: https://github.com/akatruk/p2p-devops-test.git
     targetRevision: HEAD
-    path: /
+    path: devops
+    chart: p2p-devops-test
     helm:
       valueFiles:
       - values-prod.yaml
       - values-stg.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: 2p2-devops-test-staging
 
   syncPolicy:
     syncOptions:
