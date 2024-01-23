@@ -43,6 +43,11 @@ jobs:
 
   build-and-push-production:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    on:
+      push:
+        branches:
+          - master    
 
     steps:
     - name: Checkout Repository
@@ -71,6 +76,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Deploy to Staging
+      
       run: |
         kubectl apply -f devops/argocd-prod.yml
       env:
