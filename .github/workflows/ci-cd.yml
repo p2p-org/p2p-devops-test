@@ -19,7 +19,7 @@ jobs:
         go-version: 1.18
 
     - name: Build Docker image
-      run: docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:latest -f .docker/dockerfile .
+      run: docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:latest -f devops/.docker/dockerfile .
 
     - name: Extract metadata (tags, labels) for Docker
       id: meta
