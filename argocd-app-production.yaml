@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
     namespace: 2p2-devops-test-production
   source:
-    path: .helm
+    path: test
     repoURL: https://github.com/akatruk/p2p-devops-test.git
     targetRevision: master
   syncPolicy:
