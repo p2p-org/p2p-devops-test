@@ -73,9 +73,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Deploy to Production
-      
-      run: |
-        kubectl apply -f devops/argocd-prod.yml --validate=false
+    - name: Deploy to Production  
+      uses: actions-hub/kubectl@1.14.3
       env:
-        KUBECONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
+        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
+      with:
+        args: apply -f devops/argocd-prod.yml --validate=false
+    
