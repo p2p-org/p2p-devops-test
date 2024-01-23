@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - staging
 
 jobs:
   build-and-push-staging:
@@ -38,13 +39,13 @@ jobs:
 
     - name: Deploy to Staging
       run: |
-        kubectl apply -f devops/argocd-stg.yml
+        kubectl apply -f devops/argocd-stg.yml --validate=false
       env:
-        KUBECONFIG: ${{ secrets.STAGING_KUBECONFIG }}
+        KUBECONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
 
   build-and-push-production:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && github.ref == 'refs/heads/master'
 
     steps:
     - name: Checkout Repository
@@ -72,9 +73,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Deploy to Staging
+    - name: Deploy to Production
       
       run: |
-        kubectl apply -f devops/argocd-prod.yml
+        kubectl apply -f devops/argocd-prod.yml --validate=false
       env:
-        KUBECONFIG: ${{ secrets.STAGING_KUBECONFIG }}
+        KUBECONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
