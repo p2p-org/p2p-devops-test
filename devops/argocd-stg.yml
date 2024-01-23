@@ -12,10 +12,10 @@ spec:
     targetRevision: master
     helm:
       valueFiles: 
-        - prod.yml
         - stg.yml
   destination:
     server: https://kubernetes.default.svc
+    namespace: p2p-devops-test-staging
 
   syncPolicy:
     syncOptions:

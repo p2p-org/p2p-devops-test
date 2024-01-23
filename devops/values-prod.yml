@@ -1,6 +1,6 @@
 
 app:
-  name: p2p-devops-test
+  name: p2p-devops-test-production
   replicas: 2
   namespace: p2p-devops-test-production
   port: 3000
