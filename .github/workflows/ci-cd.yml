@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build-and-push:
+  build-and-push-staging:
     runs-on: ubuntu-latest
 
     steps:
@@ -35,16 +35,68 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up kubectl
-      uses: azure/k8s-set-context@v1
-      with:
-        method: kubeconfig
-        kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
+    - name: Deploy to Staging
+      run: |
+        kubectl apply -f devops/argocd-stg.yml
+      env:
+        KUBECONFIG: ${{ secrets.STAGING_KUBECONFIG }}
 
-    - name: Install Helm
-      uses: azure/setup-helm@v1
+  build-and-push-production:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.18
+
+    - name: Build Docker image
+      run: docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:latest -f devops/.docker/dockerfile .
+
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
+      uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+      with:
+        images: akatruk/p2p-devops-test
+
+    - name: Push Docker image to GitHub Container Registry
+      run: |
+        echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        docker push ghcr.io/${{ github.repository_owner }}/p2p-devops-test:latest
   
-      
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Deploy to Staging
+      run: |
+        kubectl apply -f devops/argocd-prod.yml
+      env:
+        KUBECONFIG: ${{ secrets.STAGING_KUBECONFIG }}
+
+  manual-approval:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Request Manual Approval
+        uses: octokit/request-action@v2.x
+        with:
+          route: POST /repos/:owner/:repo/merges/:commit_sha/reviews
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.repository }}
+          commit_sha: ${{ github.sha }}
+          event_type: APPROVE
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  
     # - name: Create HPA
     #   run: |
     #     kubectl autoscale deployment p2p-devops-test --cpu-percent=50 --min=1 --max=5
+
+
+
+
+    # environment: Prod-manual
