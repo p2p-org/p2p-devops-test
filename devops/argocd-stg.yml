@@ -9,10 +9,10 @@ spec:
   source:
     repoURL: https://github.com/akatruk/p2p-devops-test
     path: devops
-    targetRevision: master
+    targetRevision: staging
     helm:
       valueFiles: 
-        - stg.yml
+        - values-stg.yml
   destination:
     server: https://kubernetes.default.svc
     namespace: p2p-devops-test-staging
