@@ -21,3 +21,15 @@ spec:
         resources:
           limits: {{ .Values.app.limits | toYaml | nindent 12 }}
           requests: {{ .Values.app.requests | toYaml | nindent 12 }}
+        readinessProbe:
+          httpGet:
+            path: /readiness
+            port: {{ .Values.app.port }}
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /liveness
+            port: {{ .Values.app.port }}
+          initialDelaySeconds: 10
+          periodSeconds: 5
