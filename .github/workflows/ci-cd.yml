@@ -43,7 +43,7 @@ jobs:
 
   build-and-push-production:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
 
     steps:
     - name: Checkout Repository
@@ -77,28 +77,3 @@ jobs:
         kubectl apply -f devops/argocd-prod.yml
       env:
         KUBECONFIG: ${{ secrets.STAGING_KUBECONFIG }}
-
-  manual-approval:
-    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
-    steps:
-      - name: Request Manual Approval
-        uses: octokit/request-action@v2.x
-        with:
-          route: POST /repos/:owner/:repo/merges/:commit_sha/reviews
-          owner: ${{ github.repository_owner }}
-          repo: ${{ github.repository }}
-          commit_sha: ${{ github.sha }}
-          event_type: APPROVE
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  
-    # - name: Create HPA
-    #   run: |
-    #     kubectl autoscale deployment p2p-devops-test --cpu-percent=50 --min=1 --max=5
-
-
-
-
-    # environment: Prod-manual
