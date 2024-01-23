@@ -1,6 +1,6 @@
-FROM golang:1.18 AS build
+FROM golang:1.16 AS build
 WORKDIR /app
-COPY ../../ .
+ADD ../../../ .
 RUN go build main.go
 FROM alpine:3
 COPY --from=build /app/main /usr/local/bin/main
