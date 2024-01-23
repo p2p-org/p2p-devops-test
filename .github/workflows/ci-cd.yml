@@ -8,6 +8,7 @@ on:
 jobs:
   build-and-push-staging:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/staging'
 
     steps:
     - name: Checkout Repository
