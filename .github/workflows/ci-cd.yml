@@ -78,5 +78,5 @@ jobs:
       env:
         KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
-        args: kubectl apply -f devops/argocd-prod.yml --validate=false
+        args: get pods
     
