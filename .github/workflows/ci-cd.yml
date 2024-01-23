@@ -44,6 +44,7 @@ jobs:
     - name: Install Helm
       uses: azure/setup-helm@v1
   
+      
     # - name: Create HPA
     #   run: |
     #     kubectl autoscale deployment p2p-devops-test --cpu-percent=50 --min=1 --max=5
