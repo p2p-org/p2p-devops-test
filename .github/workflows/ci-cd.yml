@@ -37,41 +37,78 @@ jobs:
       env:
         KUBECONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
 
+  # build-and-push-production:
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/master'
+
+  #   steps:
+  #   - name: Checkout Repository
+  #     uses: actions/checkout@v2
+
+  #   - name: Set up Go
+  #     uses: actions/setup-go@v2
+  #     with:
+  #       go-version: 1.18
+
+  #   - name: Push Docker image to GitHub Container Registry
+  #     run: |
+  #       echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+  #       docker push ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ github.sha }}
+  
+  #   - name: Checkout code
+  #     uses: actions/checkout@v2
+
+  #   - name: Configure AWS credentials
+  #     uses: aws-actions/configure-aws-credentials@v1
+  #     with:
+  #       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+  #       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #       aws-region: us-east-1
+  
+  #   - name: Generate kubectl config
+  #     run: |
+  #       aws eks update-kubeconfig --name eks-prod --region us-east-1
+
+  #   - name: Deploy ArgoCD prod
+  #     run: |
+  #       kubectl apply -f devops/argocd-prod.yml --validate=false
+
   build-and-push-production:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-    - name: Set up Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.18
+      - name: Set up Docker
+        uses: docker/setup-docker-action@v2
+        with:
+          version: '22.0.3'
 
-    - name: Build Docker image
-      run: docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ github.sha }} -f devops/.docker/dockerfile .
-
-    - name: Push Docker image to GitHub Container Registry
-      run: |
-        echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-        docker push ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ github.sha }}
+      - name: Build Docker image
+        id: build
+        run: |
+          DOCKER_TAG=$(date '+%Y%m%d%H%M%S')
+          echo "::set-output name=DOCKER_TAG::$DOCKER_TAG"
+          docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ github.sha }} -f devops/.docker/dockerfile .
+          docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:$DOCKER_TAG -f devops/.docker/dockerfile .
+          docker push ghcr.io/${{ github.repository_owner }}/p2p-devops-test:$DOCKER_TAG
   
-    - name: Checkout code
-      uses: actions/checkout@v2
+    
+      - name: Set Docker Image Tag as Output
+        run: echo "DOCKER_TAG=${{ steps.build.outputs.DOCKER_TAG }}" >> $GITHUB_ENV
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
-  
-    - name: Generate kubectl config
-      run: |
-        aws eks update-kubeconfig --name eks-prod --region us-east-1
+      - name: Display Docker Image Tag
+        run: echo "Docker Image Tag: ${{ steps.build.outputs.DOCKER_TAG }}"
 
-    - name: Deploy ArgoCD prod
-      run: |
-        kubectl apply -f devops/argocd-prod.yml --validate=false
+      - name: ArgoCD Deployment
+        uses: appleboy/argocd-action@v2
+        with:
+          server: ${{ secrets.ARGOCD_SERVER }}
+          token: ${{ secrets.ARGOCD_TOKEN }}
+          app: your-app-name
+          revision: HEAD
+          namespace: your-namespace
+          parameters: |
+            - name=image.tag
+              value=${{ env.DOCKER_TAG }}
