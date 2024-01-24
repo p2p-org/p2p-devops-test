@@ -74,4 +74,4 @@ jobs:
 
     - name: Deploy ArgoCD prod
       run: |
-        kubectl apply -f devops/argocd-stg.yml --validate=false
+        kubectl apply -f devops/argocd-prod.yml --validate=false
