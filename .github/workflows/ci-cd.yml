@@ -99,7 +99,7 @@ jobs:
         run: echo "DOCKER_TAG=${{ steps.build.outputs.DOCKER_TAG }}" >> $GITHUB_ENV
 
       - name: Display Docker Image Tag
-        run: echo "Docker Image Tag: ${{ steps.build.outputs.DOCKER_TAG }}"
+        run: 'echo "Docker Image Tag: ${{ steps.build.outputs.DOCKER_TAG }}"'
 
       - name: ArgoCD Deployment
         uses: appleboy/argocd-action@v2
