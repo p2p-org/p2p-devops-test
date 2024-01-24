@@ -90,7 +90,6 @@ jobs:
         run: |
           DOCKER_TAG=$(date '+%Y%m%d%H%M%S')
           echo "::set-output name=DOCKER_TAG::$DOCKER_TAG"
-          docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ github.sha }} -f devops/.docker/dockerfile .
           docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:$DOCKER_TAG -f devops/.docker/dockerfile .
           docker push ghcr.io/${{ github.repository_owner }}/p2p-devops-test:$DOCKER_TAG
   
