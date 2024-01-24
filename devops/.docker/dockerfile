@@ -1,9 +1,10 @@
-FROM golang:1.16 AS build
+FROM golang:1.21
 WORKDIR /app
 ADD ../../../ .
-RUN go build main.go
-FROM alpine:3
-WORKDIR /app
-COPY --from=build /app/main /app/main
+RUN go env -w GO111MODULE=auto && \
+    echo $PATH=/usr/local/go/bin
+RUN CGO_ENABLED=0 GOOS=linux go build main.go
+COPY main /usr/local/bin/main
+RUN chmod +x /usr/local/bin/main
 EXPOSE 3000
-CMD ["/bin/sh", "./main"]
+CMD ["/main"]
