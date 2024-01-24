@@ -70,4 +70,4 @@ jobs:
   
     - name: Deploy to Production
       run: |
-        kubectl apply -f devops/argocd-prod.yml --validate=false
+        kubectl get pods
