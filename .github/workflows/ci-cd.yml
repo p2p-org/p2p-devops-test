@@ -60,10 +60,9 @@ jobs:
   
     - name: Checkout code
       uses: actions/checkout@v2
-
-    - name: Deploy to Production  
-      uses: actions-hub/kubectl@master
+  
+    - name: Deploy to Production
+      run: |
+        kubectl apply -f devops/argocd-prod.yml --validate=false
       env:
-        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
-      with:
-        args: get pods
+        KUBECONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
