@@ -101,14 +101,6 @@ jobs:
       - name: Display Docker Image Tag
         run: 'echo "Docker Image Tag: ${{ steps.build.outputs.DOCKER_TAG }}"'
 
-      - name: ArgoCD Deployment
-        uses: appleboy/argocd-action@v2
-        with:
-          server: ${{ secrets.ARGOCD_SERVER }}
-          token: ${{ secrets.ARGOCD_TOKEN }}
-          app: your-app-name
-          revision: HEAD
-          namespace: your-namespace
-          parameters: |
-            - name=image.tag
-              value=${{ env.DOCKER_TAG }}
+      - name: Deploy ArgoCD prod
+        run: |
+          kubectl apply -f devops/argocd-prod.yml --validate=false
