@@ -57,7 +57,7 @@ jobs:
         go-version: 1.18
 
     - name: Build Docker image
-      run: docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ github.sha }} -f devops/.docker/dockerfile .
+      run: docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ github.sha_short }} -f devops/.docker/dockerfile .
 
     - name: Extract metadata (tags, labels) for Docker
       id: meta
@@ -68,7 +68,7 @@ jobs:
     - name: Push Docker image to GitHub Container Registry
       run: |
         echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-        docker push ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ github.sha }}
+        docker push ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ github.sha_short }}
   
     - name: Checkout code
       uses: actions/checkout@v2
