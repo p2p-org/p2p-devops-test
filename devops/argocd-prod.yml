@@ -16,10 +16,6 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: p2p-devops-test-production
-
-  syncPolicy:
-    syncOptions:
-      - CreateNamespace=true
       
     automated:
       prune: true
