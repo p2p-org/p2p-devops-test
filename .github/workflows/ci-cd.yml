@@ -21,18 +21,18 @@ jobs:
         go-version: 1.18
 
     - name: Build Docker image
-      run: docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:latest -f devops/.docker/dockerfile .
+      run: docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ github.sha }} -f devops/.docker/dockerfile .
 
-    - name: Extract metadata (tags, labels) for Docker
-      id: meta
-      uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-      with:
-        images: akatruk/p2p-devops-test
+    # - name: Extract metadata (tags, labels) for Docker
+    #   id: meta
+    #   uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+    #   with:
+    #     images: akatruk/p2p-devops-test
 
     - name: Push Docker image to GitHub Container Registry
       run: |
         echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-        docker push ghcr.io/${{ github.repository_owner }}/p2p-devops-test:latest
+        docker push ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ github.sha }}
   
     - name: Checkout code
       uses: actions/checkout@v2
@@ -57,7 +57,7 @@ jobs:
         go-version: 1.18
 
     - name: Build Docker image
-      run: docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:latest -f devops/.docker/dockerfile .
+      run: docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ github.sha }} -f devops/.docker/dockerfile .
 
     - name: Extract metadata (tags, labels) for Docker
       id: meta
@@ -68,7 +68,7 @@ jobs:
     - name: Push Docker image to GitHub Container Registry
       run: |
         echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-        docker push ghcr.io/${{ github.repository_owner }}/p2p-devops-test:latest
+        docker push ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ github.sha }}
   
     - name: Checkout code
       uses: actions/checkout@v2
@@ -79,4 +79,3 @@ jobs:
         KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
         args: get pods
-    
