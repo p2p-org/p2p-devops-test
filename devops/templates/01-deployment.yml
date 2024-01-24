@@ -16,8 +16,6 @@ spec:
       containers:
       - name: {{ .Values.app.name }}
         image: {{ .Values.app.containers.image }}
-        command: ["/bin/sh"]
-        args: ["sleep 5000"]
         ports:
         - containerPort: {{ .Values.app.port }}
         resources:
