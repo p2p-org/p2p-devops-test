@@ -23,12 +23,6 @@ jobs:
     - name: Build Docker image
       run: docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ github.sha }} -f devops/.docker/dockerfile .
 
-    # - name: Extract metadata (tags, labels) for Docker
-    #   id: meta
-    #   uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-    #   with:
-    #     images: akatruk/p2p-devops-test
-
     - name: Push Docker image to GitHub Container Registry
       run: |
         echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
@@ -58,12 +52,6 @@ jobs:
 
     - name: Build Docker image
       run: docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ github.sha }} -f devops/.docker/dockerfile .
-
-    # - name: Extract metadata (tags, labels) for Docker
-    #   id: meta
-    #   uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-    #   with:
-    #     images: akatruk/p2p-devops-test
 
     - name: Push Docker image to GitHub Container Registry
       run: |
