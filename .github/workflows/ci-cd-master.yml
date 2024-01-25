@@ -25,6 +25,8 @@ jobs:
       - name: Extract Variables from values.yaml
         id: var
         run: |
+          pwd
+          ls -la devops/
           export DOCKER_TAG=$(yq eval 'tojson' devops/values-prod.yml | jq '.app.containers.tag')
           echo $DOCKER_TAG
 
