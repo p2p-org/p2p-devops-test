@@ -6,8 +6,6 @@ metadata:
     argocd-image-updater.argoproj.io/image-alias.allow-tags: 'regexp:^1.3.0-SNAPSHOT.[0-9]+$'
     argocd-image-updater.argoproj.io/image-alias.force-update: 'true'
     argocd-image-updater.argoproj.io/image-alias.update-strategy: latest
-    argocd-image-updater.argoproj.io/image-list: >-
-      image-alias=registry.gitlab.com/myorg/my-test-image
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   name: p2p-devops-test-production

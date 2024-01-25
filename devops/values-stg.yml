@@ -3,14 +3,15 @@ app:
   replicas: 1
   namespace: p2p-devops-test-staging
   port: 3000
-  containers: 
+  containers:
     image: ghcr.io/akatruk/p2p-devops-test
+    tag: v0.0.3
   limits:
     memory: "256Mi"
     cpu: "200m"  
   requests:
     memory: "128Mi"
-    cpu: "100m"  
+    cpu: "100m"
 
 service:
   port: 3000
