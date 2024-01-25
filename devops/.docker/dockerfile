@@ -1,6 +1,6 @@
 FROM golang:1.21
 WORKDIR /app
 ADD ../../../ .
-RUN go build -o main .
+RUN go build main.go
 EXPOSE 3000
 CMD ["./main"]
