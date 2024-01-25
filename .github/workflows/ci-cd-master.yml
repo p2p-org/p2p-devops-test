@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI/CD Pipeline on master branch
 
 on:
   push:
@@ -30,3 +30,13 @@ jobs:
 
       - name: Display Docker Image Tag
         run: 'echo "Docker Image Tag: ${{ steps.build.outputs.DOCKER_TAG }}"'
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          version: 'latest'
+  
+      - name: Apply ArgoCD Manifests
+        run: |
+          kubectl apply -f devops/argocd/argocd-prod.yml --validate=false
+  

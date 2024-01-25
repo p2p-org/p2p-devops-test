@@ -5,7 +5,6 @@ app:
   port: 3000
   containers: 
     image: ghcr.io/akatruk/p2p-devops-test
-    # tag: latest
   limits:
     memory: "256Mi"
     cpu: "200m"  
