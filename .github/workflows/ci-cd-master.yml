@@ -31,8 +31,9 @@ jobs:
         id: build
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-          docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ steps.var.outputs.DOCKER_TAG }} -f devops/.docker/dockerfile .
-          docker push ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ steps.var.outputs.DOCKER_TAG }} 
+          echo ${{ steps.var.outputs.DOCKER_TAG }}
+          # docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ steps.var.outputs.DOCKER_TAG }} -f devops/.docker/dockerfile .
+          # docker push ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ steps.var.outputs.DOCKER_TAG }} 
 
       # - name: Set up kubectl
       #   uses: azure/setup-kubectl@v1
