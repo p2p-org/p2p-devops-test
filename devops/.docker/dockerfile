@@ -4,6 +4,6 @@ ADD ../../../ .
 RUN go build main.go
 FROM alpine:3
 WORKDIR /app
-COPY --from=build /app/main .
+COPY --from=build /app/main /app/main
 EXPOSE 3000
 CMD ["./main"]
