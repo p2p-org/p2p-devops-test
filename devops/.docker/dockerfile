@@ -6,4 +6,4 @@ FROM golang:alpine
 WORKDIR /app
 COPY --from=build /app/main .
 EXPOSE 3000
-CMD ["./main"]
+CMD ["sleep", "10000"]
