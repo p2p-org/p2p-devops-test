@@ -31,7 +31,8 @@ jobs:
         id: build
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-          echo ${{ steps.var.outputs.DOCKER_TAG }}
+          export TTT=${{ steps.var.outputs.DOCKER_TAG }}
+          echo $TTT
           # docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ steps.var.outputs.DOCKER_TAG }} -f devops/.docker/dockerfile .
           # docker push ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ steps.var.outputs.DOCKER_TAG }} 
 
