@@ -25,16 +25,14 @@ jobs:
       - name: Extract Variables from values.yaml
         id: var
         run: |
-          yq eval 'tojson' devops/values-prod.yml | jq '.app.containers.tag'
           export DOCKER_TAG=$(yq eval 'tojson' devops/values-prod.yml | jq '.app.containers.tag')
-          echo $DOCKER_TAG
 
-      # - name: Build Docker image
-      #   id: build
-      #   run: |
-      #     echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      #     docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ steps.var.outputs.DOCKER_TAG }} -f devops/.docker/dockerfile .
-      #     docker push ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ steps.var.outputs.DOCKER_TAG }} 
+      - name: Build Docker image
+        id: build
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          docker build -t ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ steps.var.outputs.DOCKER_TAG }} -f devops/.docker/dockerfile .
+          docker push ghcr.io/${{ github.repository_owner }}/p2p-devops-test:${{ steps.var.outputs.DOCKER_TAG }} 
 
       # - name: Set up kubectl
       #   uses: azure/setup-kubectl@v1
