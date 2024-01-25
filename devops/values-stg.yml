@@ -5,7 +5,7 @@ app:
   port: 3000
   containers:
     image: ghcr.io/akatruk/p2p-devops-test
-    tag: v0.0.3
+    tag: alpine
   limits:
     memory: "256Mi"
     cpu: "200m"  
