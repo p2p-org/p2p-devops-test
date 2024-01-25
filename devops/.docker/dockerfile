@@ -1,10 +1,6 @@
 FROM golang:1.21
 WORKDIR /app
 ADD ../../../ .
-RUN export GOPATH=$HOME/go && \
-    export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
-RUN go build main.go
-COPY main /usr/local/bin/main
-RUN chmod +x /usr/local/bin/main
+RUN go build -o main .
 EXPOSE 3000
-CMD ["sleep", "10000"]
+CMD ["./main"]
