@@ -7,4 +7,4 @@ RUN go build main.go
 COPY main /usr/local/bin/main
 RUN chmod +x /usr/local/bin/main
 EXPOSE 3000
-CMD ["sleep" "10000"]
+CMD ["sleep", "10000"]
