@@ -18,7 +18,7 @@ jobs:
 
       - name: Install yq
         run: |
-          wget https://github.com/mikefarah/yq/releases/download/v4.40.5/yq_darwin_arm64 -O yq
+          wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O yq
           chmod +x yq
           sudo mv yq /usr/local/bin/
 
