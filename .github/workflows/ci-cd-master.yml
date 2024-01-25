@@ -18,7 +18,9 @@ jobs:
 
       - name: Install yq
         run: |
-          apt-get -y install yq 
+          wget https://github.com/mikefarah/yq/releases/download/v4.40.5/yq_darwin_amd64 -O yq
+          chmod +x yq
+          sudo mv yq /usr/local/bin/
 
       - name: Extract Variables from values.yaml
         id: var
