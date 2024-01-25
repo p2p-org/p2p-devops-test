@@ -3,10 +3,8 @@ WORKDIR /app
 ADD ../../../ .
 RUN export GOPATH=$HOME/go && \
     export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
-RUN env -w GO111MODULE=auto && \
-    echo $PATH=/usr/local/go/bin
-RUN go env GOOS=linux GOARCH=amd64 go build main.go
+RUN go build main.go
 COPY main /usr/local/bin/main
 RUN chmod +x /usr/local/bin/main
 EXPOSE 3000
-CMD ["/main"]
+CMD ["sleep" "10000"]
