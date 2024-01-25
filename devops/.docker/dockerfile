@@ -2,8 +2,5 @@ FROM golang:1.21 as build
 WORKDIR /app
 ADD ../../../ .
 RUN go build main.go
-FROM alpine:3
-WORKDIR /app
-COPY --from=build /app/main /app/main
 EXPOSE 3000
 CMD ["./main"]
