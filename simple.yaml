@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
   - name: golang
-    image: ghcr.io/akatruk/p2p-devops-test:20240125070313
+    image: ghcr.io/akatruk/p2p-devops-test:20240125071324
     resources:
       limits:
         memory: "128Mi"
