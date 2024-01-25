@@ -25,7 +25,7 @@ jobs:
       - name: Extract Variables from values.yaml
         id: var
         run: |
-          echo "{name}={value}" >> $DOCKER_TAG
+          echo "::set-output name=DOCKER_TAG::$DOCKER_TAG"
           export DOCKER_TAG=$(yq eval 'tojson' devops/values-prod.yml | jq '.app.containers.tag')
 
       - name: Build Docker image
