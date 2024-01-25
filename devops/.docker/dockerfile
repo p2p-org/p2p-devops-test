@@ -3,7 +3,7 @@ WORKDIR /app
 ADD ../../../ .
 RUN export GOPATH=$HOME/go && \
     export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
-RUN go env -w GO111MODULE=auto && \
+RUN env -w GO111MODULE=auto && \
     echo $PATH=/usr/local/go/bin
 RUN go env GOOS=linux GOARCH=amd64 go build main.go
 COPY main /usr/local/bin/main
