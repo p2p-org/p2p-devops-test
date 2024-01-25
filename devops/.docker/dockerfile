@@ -1,10 +1,12 @@
 FROM golang:1.21
 WORKDIR /app
 ADD ../../../ .
+# RUN export GOPATH=$HOME/go && \
+#     export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 RUN go env -w GO111MODULE=auto && \
     echo $PATH=/usr/local/go/bin
 RUN CGO_ENABLED=0 GOOS=linux go build main.go
 COPY main /usr/local/bin/main
 RUN chmod +x /usr/local/bin/main
 EXPOSE 3000
-CMD ["/main"]
+CMD ["main"]

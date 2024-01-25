@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: golang
+  labels:
+    name: golang
+spec:
+  containers:
+  - name: golang
+    image: ghcr.io/akatruk/p2p-devops-test:1
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 3000
