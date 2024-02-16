@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.name }}
+  namespace: {{ .Values.app.namespace }}
+spec:
+  replicas: {{ .Values.app.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}
+    spec:
+      containers:
+      - name: {{ .Values.app.name }}
+        image: "{{ .Values.app.containers.image }}:{{ .Values.app.containers.tag }}"
+        ports:
+        - containerPort: {{ .Values.app.port }}
+        resources:
+          limits: {{ .Values.app.limits | toYaml | nindent 12 }}
+          requests: {{ .Values.app.requests | toYaml | nindent 12 }}
+        readinessProbe:
+          httpGet:
+            path: /readiness
+            port: {{ .Values.app.port }}
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /liveness
+            port: {{ .Values.app.port }}
+          initialDelaySeconds: 10
+          periodSeconds: 5

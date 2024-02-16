@@ -1,0 +1,29 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd-image-updater.argoproj.io/image-alias.allow-tags: 'regexp:^1.3.0-SNAPSHOT.[0-9]+$'
+    argocd-image-updater.argoproj.io/image-alias.force-update: 'true'
+    argocd-image-updater.argoproj.io/image-alias.update-strategy: latest
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  name: p2p-devops-test-production
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/akatruk/p2p-devops-test
+    path: devops
+    targetRevision: master
+    helm:
+      valueFiles: 
+        - values-prod.yml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: p2p-devops-test-production
+      
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
