@@ -39,5 +39,5 @@ jobs:
 
       - name: Tag and push Docker image
         run: |
-          docker tag myapp:${{ env.VERSION }} juliopedrosa/webapp:${{ env.VERSION }}
+          docker tag webapp:${{ env.VERSION }} juliopedrosa/webapp:${{ env.VERSION }}
           docker push juliopedrosa/webapp:${{ env.VERSION }}
