@@ -21,7 +21,7 @@ jobs:
       - name: Extract version from CHANGELOG.md
         id: extract_version
         run: |
-          VERSION=$(grep -oP '## \[\K[^\]]+' CHANGELOG.md.md | head -n 1)
+          VERSION=$(grep -oP '## \[\K[^\]]+' CHANGELOG.md | head -n 1)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Log extracted version
