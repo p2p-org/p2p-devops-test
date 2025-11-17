@@ -10,8 +10,13 @@ on:
 
 jobs:
   sast:
-    uses: ./.github/security/sast.yaml
-    secrets: inherit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/security/sast.yaml
+
   sca:
-    uses: ./.github/security/sca.yaml
-    secrets: inherit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/security/sca.yaml
