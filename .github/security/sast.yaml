@@ -1,0 +1,31 @@
+name: SAST scan
+
+on:
+  workflow_call:
+
+env:
+  GO_VERSION: "1.25"
+
+jobs:
+  sast:
+    name: SAST Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+          cache-dependency-path: go.sum
+
+      - name: Run gosec (Security Scanner)
+        uses: securego/gosec@master
+        with:
+          args: "./..."
+        continue-on-error: true
