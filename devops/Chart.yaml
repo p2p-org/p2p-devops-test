@@ -1,0 +1,4 @@
+apiVersion: v2
+name: p2p-devops-test
+description: A Helm chart for deploying a Golang application with HPA, Deployment, and Service
+version: 0.1.0
